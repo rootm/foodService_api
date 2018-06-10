@@ -14,7 +14,7 @@ import com.food.foodService.respositories.FoodRespository;
 
 @RestController
 @RequestMapping("/api/food")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class FoodController {
 	
 	@Autowired
@@ -22,15 +22,20 @@ public class FoodController {
 	
 	@RequestMapping(method=RequestMethod.POST, value="/")
 	public String addFood(@RequestBody Food food) {
-		
-		foodRepo.save(food);
-		return food.getFoodId();
+		try {
+			foodRepo.save(food);
+		return "{ \"status\":200, \"message\": \"saved sucessfuly\" }";
+		} catch (Exception e) {
+			return "{ \"status\":500, \"message\": \"Error Saving\" }";
+		}
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, value="/")
 	public List<Food> getAll() {
 		
 		
-		return foodRepo.findAll();
+			return foodRepo.findAll();
+		
+		
 	}
 }
